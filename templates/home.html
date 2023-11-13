@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medication Dispenser</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+</head>
+<body>
+    <h1>Patients</h1>
+    <ul>
+        {% for patient_id, patient_info in patients.items() %}
+            <li>
+                {{ patient_info.name }} - 
+                Medication: {{ ', '.join(patient_info.medication) }} |
+                <form method="post" action="/dispense_medication">
+                    <input type="hidden" name="patient_id" value="{{ patient_id }}">
+                    <label for="medication">Dispense Medication:</label>
+                    <select name="medication" id="medication">
+                        {% for med in patient_info.medication %}
+                            <option value="{{ med }}">{{ med }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Dispense</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
